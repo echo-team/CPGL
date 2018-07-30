@@ -1,8 +1,12 @@
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xos.h>
 #include <iostream>
 
 namespace CPGL
 {
     class Application;
+    class Window;
 };
 
 class CPGL::Application
