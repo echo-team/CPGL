@@ -1,10 +1,16 @@
 #include <iostream>
 
-class Application
+namespace CPGL
+{
+    class Application;
+};
+
+class CPGL::Application
 {
     private:
 
-
+        Display* display;
+        int ScreenNumber;
 
     public:
 
@@ -13,13 +19,31 @@ class Application
          */
         Application()
         {
-            Display* display = XOpenDisplay(NULL);
-            int ScreenNumber = DefaultScreen(display);
+            display = XOpenDisplay(NULL);
+            ScreenNumber = DefaultScreen(display);
 
             if (display == NULL)
             {
                 std::cout << "ERROR: cannot connect to the X server." << std::endl;
                 exit(1);
             }
+        }
+
+        /**
+         * Returns structure got from X server
+         * @return {Display*}
+         */
+        Display* getGraphixSystemDescriptor()
+        {
+            return display;
+        }
+
+        /**
+         * Returns number of screen where application has been placed
+         * @return {int}
+         */
+        int getScreenNumber()
+        {
+            return ScreenNumber;
         }
 };
