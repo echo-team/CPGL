@@ -29,6 +29,8 @@ class CPGL::Window
                 0, 0, 800, 400, 1,
                 BlackPixel (display, screenNumber),
                 WhitePixel(display, screenNumber));
+
+            XSelectInput(display, window, ExposureMask | KeyPressMask);
         }
 
         /**

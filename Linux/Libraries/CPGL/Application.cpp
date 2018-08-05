@@ -15,6 +15,8 @@ class CPGL::Application
 
         Display* display;
         int ScreenNumber;
+        XEvent report;
+        GC gc;
 
     public:
 
@@ -30,6 +32,29 @@ class CPGL::Application
             {
                 std::cout << "ERROR: cannot connect to the X server." << std::endl;
                 exit(1);
+            }
+        }
+
+        /**
+         * Starts main loop of the application
+         */
+        void execute()
+        {
+            while(1)
+            {
+                XNextEvent(display, &report);
+
+                switch (report.type)
+                {
+                    case Expose:
+                        if (report.xexpose.count != 0)
+                            break;
+                        break;
+
+                    case KeyPress :
+                         XCloseDisplay ( display );
+                         exit ( 0 );
+                }
             }
         }
 

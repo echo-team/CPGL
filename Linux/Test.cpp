@@ -7,8 +7,7 @@ int main(int argc, char *argv[])
     CPGL::Window window(&application, NULL);
 
     window.show();
-    while(1)
-    {}
+    application.execute();
 
     return 0;
 }
