@@ -9,11 +9,8 @@ class CPGL::Window
 
     public:
 
-        Window(Application* application, Window* cpglParent)
+        Window(Display* display, int screenNumber, Window* cpglParent) : display(display), screenNumber(screenNumber)
         {
-            display = application->getGraphixSystemDescriptor();
-            screenNumber = application->getScreenNumber();
-
             if (cpglParent == NULL)
             {
                 parent = RootWindow(display, screenNumber);
@@ -31,6 +28,15 @@ class CPGL::Window
                 WhitePixel(display, screenNumber));
 
             XSelectInput(display, window, ExposureMask | KeyPressMask);
+        }
+
+        /**
+         * Setts a name to the window
+         * {const char*} name - name of the window to set
+         */
+        void setName(const char* name)
+        {
+            //XSetWMName(display, window, name);
         }
 
         /**

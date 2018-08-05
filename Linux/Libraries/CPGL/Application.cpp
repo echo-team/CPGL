@@ -1,22 +1,12 @@
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xos.h>
-#include <iostream>
-
-namespace CPGL
-{
-    class Application;
-    class Window;
-};
-
 class CPGL::Application
 {
     private:
 
         Display* display;
-        int ScreenNumber;
+        int screenNumber;
         XEvent report;
         GC gc;
+        std::map<const char*, Window*> windows;
 
     public:
 
@@ -26,13 +16,27 @@ class CPGL::Application
         Application()
         {
             display = XOpenDisplay(NULL);
-            ScreenNumber = DefaultScreen(display);
+            screenNumber = DefaultScreen(display);
 
             if (display == NULL)
             {
                 std::cout << "ERROR: cannot connect to the X server." << std::endl;
                 exit(1);
             }
+        }
+
+        /**
+         * Creates a window
+         * {char*}         name   - name of creating window
+         * {CPGL::Window*} parent - parent window
+         */
+        Window* newWindow(const char* name, Window* parent)
+        {
+            Window* window = new Window(display, screenNumber, parent);
+            window->setName(name);
+            windows.insert(std::pair<const char*, Window*>(name, window));
+
+            return window;
         }
 
         /**
@@ -73,6 +77,6 @@ class CPGL::Application
          */
         int getScreenNumber()
         {
-            return ScreenNumber;
+            return screenNumber;
         }
 };
